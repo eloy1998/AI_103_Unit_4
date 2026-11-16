@@ -42,7 +42,7 @@
 
 - Where it lives:
   - Eval: the repo-facts block's PR-template asks and stated contribution policy (including any AI-use policy); the candidate description's sections and Testing boxes.
-  - Live: `.github/PULL_REQUEST_TEMPLATE.md` and `docs/CONTRIBUTING.md` in the scoped repo; the issue's thread (its comments); pr_draft.md's sections; test_evidence.md for the Testing boxes; for the seeded-bug marker, `grep -rn "issue #<n>:" tests` and pyproject.toml.
+  - Live: `.github/PULL_REQUEST_TEMPLATE.md` and `docs/CONTRIBUTING.md` in the scoped repo; the issue's thread (its comments); pr_draft.md's sections; test_evidence.md for the Testing boxes; for the seeded-bug marker, `git grep -n "issue #<n>:" main -- tests pyproject.toml` on the base against `grep -rn "issue #<n>:" tests pyproject.toml` on the branch.
 - What good looks like:
   - Every ask the repo states is answered with substance (prose answering a checklist item counts): live, Summary, Issue, Changes, Testing, and Notes for Reviewers have real content and the Issue line reads "Closes #<n>"; in eval, the repo-facts asks (checklist, closes line, changelog or whatsnew entry) are met.
   - Ticked or claimed Testing items are not contradicted by the evidence.

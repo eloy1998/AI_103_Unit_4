@@ -32,7 +32,7 @@ A PR package is a candidate pull request (its title, description, commits, and d
 3. The PR text: the candidate title and description
 4. The evidence: test results showing before/after behavior and the repository's own checks
 
-The tool grades this single package against the rubric to decide whether all checks pass or any fail, producing a binary verdict: accept (ready to submit) or reject (hold).
+The tool grades this single package against the rubric to decide whether all checks pass or any fail, producing a binary verdict: accept (ready to submit) or reject (hold). Grade exactly one package per run, and answer only this question: never review code quality in general, suggest a different design, or grade a different pull request.
 
 ## Inputs and modes
 
@@ -59,15 +59,15 @@ Before starting any check in live mode, read `~/.claude/skills/pr-precheck/scope
 
 The `Repo:` line in `scope.md` names the pull request's target repository. If the `Repo:` line is still a placeholder (contains `<ORG>/<PATH-REVIEW-REPO>` or similar), stop immediately without grading and tell the student to fill in their section's Path Review repository URL on that line (see `scope.md` for instructions).
 
-If the `Repo:` line is filled with a real repository path, verify that the PR you are grading targets that repository and belongs to the issue named in the PR's description or commits. Refuse to grade any PR that targets a different repository.
+If the `Repo:` line is filled with a real repository path, verify that the PR you are grading targets that repository and belongs to the issue named in the PR's description or commits. Refuse to grade any PR that targets a different repository. Never guess a scope: if `scope.md` is unreadable or its `Repo:` line is missing, stop and say so.
 
 In eval mode, `scope.md` is ignored entirely: the bundle is the complete world and needs no scope.
 
 ## The voice seam (live mode only)
 
-After reading the plan and before grading checks, read `~/.claude/skills/pr-precheck/voice-guide.md` in live mode. This file contains your personal rules for how you write upstream PRs, carried forward from week 2.
+In live mode, read `~/.claude/skills/pr-precheck/voice-guide.md` last, after the plan, diff, PR text, and test evidence have been read (the procedure's read order puts it at the end). This file contains the student's own rules for how they write upstream, carried forward from week 2.
 
-Hold the draft PR title and description against these rules. Report any rule from `voice-guide.md` that the draft PR text breaks in your summary line for that check, naming the rule and the violation.
+Hold the draft PR title and description against these rules. Report each rule the draft breaks in the summary text above the JSON block, naming the rule and quoting the offending words. The JSON block records only rubric checks.
 
 Voice rules never change the verdict on their own: they are feedback on communication quality, not gating criteria. A PR can be ready even if the description is terse, or ready while breaking a voice rule. The verdict comes from the rubric alone.
 
@@ -75,7 +75,7 @@ In eval mode, `voice-guide.md` is ignored entirely: voice is personal and carrie
 
 ## Component reads
 
-This tool reads and executes three components. All of them, plus `scope.md` and `voice-guide.md`, live in the skill directory `~/.claude/skills/pr-precheck/`, not in the working copy being graded. Read them from there by absolute path.
+This tool reads and executes three components. In live mode, all of them, plus `scope.md` and `voice-guide.md`, live in the skill directory `~/.claude/skills/pr-precheck/`, not in the working copy being graded: read them from there by absolute path. In eval mode the harness has already inlined these components and the package bundle into the prompt: read no files and run no commands.
 
 1. **`rubric.md`** defines the checks and the verdict rule. Each row in the checks table names a check, describes the evidence to examine, states the pass condition, and sets a weight (required or preferred). The verdict rule below the table says how the per-check grades combine into accept or reject, and how `unclear` grades are treated.
 

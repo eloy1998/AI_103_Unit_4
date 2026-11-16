@@ -34,3 +34,11 @@ My first version failed any description without an AI statement. That rejected g
 ## Trade-offs
 
 The `ai-disclosure` check now gives up catching undisclosed AI use in a repo that states no policy: a PR to such a repo passes even if it says nothing about AI. I accepted that because inventing a policy the repo never stated rejected three correct PRs. A related loosening: `repo-checks-run` accepts a stated outcome such as "go test ./... passes" in eval packages without pasted output, so a fabricated claim would pass that check. The repro check, which does require observable before/after output, is the guard against that.
+
+## Code and evidence in this repo
+
+- `tools/pr-precheck/`: the installed skill (SKILL.md, rubric.md, procedure.md, voice-guide.md, scope.md, CONTRACT.md, references/evidence-guide.md).
+- `beat-1-sandbox/unit-4/eval-run.txt`: the saved full harness run (20/20).
+- `beat-1-sandbox/unit-3/plan.md`: my plan for issue #24, with the `## Deviations` entry added at the PR stage.
+- `beat-1-sandbox/unit-4/fix-24/`: the code the PR contains and the evidence behind it. `0001-*.patch` and `0002-*.patch` are the two commits (`git format-patch main..HEAD`), `pr.diff` is `git diff main...HEAD`, `safety/prompt_defense.py` and `tests/unit/test_prompt_defense.py` are the final files, `repro_24.py` is the repro script from my plan, and `pr_draft.md` and `test_evidence.md` are the PR text and the captured check output. The PR itself is at the link above; these files are not in the PR's diff.
+
